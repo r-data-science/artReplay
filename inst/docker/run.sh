@@ -1,20 +1,20 @@
 sudo docker build \
-  -t paletteapp:latest \
+  -t replayapp:latest \
   -f inst/docker/Dockerfile \
   .
 
 docker tag \
-  paletteapp:latest \
-  bfatemi/paletteapp:latest
+  replayapp:latest \
+  bfatemi/replayapp:latest
 
 docker push \
-  bfatemi/paletteapp:latest
+  bfatemi/replayapp:latest
 
 # sudo docker pull \
 #   bfatemi/apptemplate1:latest
 #
 sudo docker run \
-  --name paletteapp \
+  --name replayapp \
   -p 3939:3939 \
   --rm \
-  -dt bfatemi/paletteapp:latest
+  -dt bfatemi/replayapp:latest

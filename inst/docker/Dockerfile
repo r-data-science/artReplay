@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libfftw3-dev \
     libtiff-dev \
     libglpk40 \
+    libavfilter-dev \
     && rm -rf /var/lib/apt/lists/*
 
 #------------------------------------------------------------
@@ -40,9 +41,11 @@ RUN install.r remotes
 # and the current package's DESCRIPTION file
 #
 ADD . rpkg
-RUN Rscript -e "remotes::install_local('rpkg')" && rm -rf rpkg
+RUN Rscript -e "remotes::install_local('rpkg')"
 RUN Rscript -e "stopifnot('replayArt' %in% installed.packages()[,'Package'])"
 
+# Also needs the following
+RUN Rscript -e "install.packages(c('av', 'gifski'))"
 
 #------------------------------------------------------------
 # Specify shiny runtime options in Rprofile.site that was
@@ -50,6 +53,15 @@ RUN Rscript -e "stopifnot('replayArt' %in% installed.packages()[,'Package'])"
 #
 RUN echo "local(options(shiny.port = 3939, shiny.host = '0.0.0.0'))" > \
     /usr/lib/R/etc/Rprofile.site
+
+#------------------------------------------------------------
+#Increase memory limits for ImageMagick just for this runReplayApp
+#
+RUN sed -i -E 's/name="memory" value=".+"/name="memory" value="16GiB"/g' /etc/ImageMagick-6/policy.xml
+RUN sed -i -E 's/name="map" value=".+"/name="map" value="16GiB"/g' /etc/ImageMagick-6/policy.xml
+RUN sed -i -E 's/name="area" value=".+"/name="area" value="16GiB"/g' /etc/ImageMagick-6/policy.xml
+RUN sed -i -E 's/name="disk" value=".+"/name="disk" value="16GiB"/g' /etc/ImageMagick-6/policy.xml
+
 
 #------------------------------------------------------------
 # Add non-root system user that runs the app
@@ -65,5 +77,5 @@ RUN chown app:app -R /home/app
 USER app
 
 
-CMD ["R", "-e", "mypalette::runPaletteApp()"]
+CMD ["R", "-e", "replayArt::runReplayApp()"]
 

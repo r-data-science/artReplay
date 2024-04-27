@@ -35,6 +35,10 @@ runReplayApp <- function() {
         get_app_dir("images/init.png"),
         get_temp_dir("init.png")
       )
+
+      onStop(function() {
+        gc()
+      })
     }
   )
 }
@@ -108,8 +112,12 @@ app_server <- function() {
     ## On plot click, get x and y coordinates in pixels and shift by 100
     ## to get the start coordinates of the box
     observeEvent(input$plot_click, {
-      r_click_x(max(round(input$plot_click$x * 1000, 0) - 100, 0))
-      r_click_y(max(round(input$plot_click$y * 1000, 0) - 100, 0))
+      x <- input$plot_click$x
+      y <- input$plot_click$y
+      if (x < 1) x <- x * 1000
+      if (y < 1) y <- y * 1000
+      r_click_x(max(round(x, 0) - 100, 0))
+      r_click_y(max(round(y, 0) - 100, 0))
     })
 
     ## Plot the base image with the box corresponding to the
@@ -138,8 +146,8 @@ app_server <- function() {
       ymax <- min(r_click_y() + 200, 1000)
 
       ## Scale coords to map selected region to res of files and crop
-      gif <- image_crop2(replay_gif, xmin * 3, xmax * 3, ymin * 3, ymax * 3)
-      img <- image_crop2(full_img,   xmin * 8, xmax * 8, ymin * 8, ymax * 8)
+      gif <- image_crop2(replay_gif, xmin * 2, xmax * 2, ymin * 2, ymax * 2)
+      img <- image_crop2(full_img,   xmin * 4, xmax * 4, ymin * 4, ymax * 4)
 
       ## Drop frames that haven't changed since prior
       gif <- gif[which(get_comp_vec(gif))]

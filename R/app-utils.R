@@ -3,7 +3,7 @@
 #' Functions required to execute and facililate an application user session.
 #'
 #' @import fs
-#' @importFrom magick image_read image_ggplot image_crop image_info geometry_area image_compare_dist image_write_gif image_write_video
+#' @importFrom magick image_read image_ggplot image_crop image_info geometry_area image_compare_dist image_write_gif image_write_video image_resize image_write
 #' @importFrom data.table data.table
 #' @importFrom base64enc dataURI
 #'
@@ -101,13 +101,13 @@ get_comp_vec <- function(gif) {
 
 #' @describeIn app-utils get base image for app
 get_full_img <- function() {
-  get_app_dir("images/base8000.jpeg") |>
+  get_app_dir("images/base4000.jpeg") |>
     magick::image_read()
 }
 
 #' @describeIn app-utils get replay gif for app
 get_replay_gif <- function() {
-  get_app_dir("images/frames.gif") |>
+  get_app_dir("images/frames2000.gif") |>
     magick::image_read()
 }
 
