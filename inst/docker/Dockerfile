@@ -7,7 +7,7 @@ FROM rocker/r-ubuntu:22.04
 #------------------------------------------------------------
 # Expose port for app to listen on
 #
-EXPOSE 3939
+EXPOSE 3838
 
 #------------------------------------------------------------
 # Install system dependencies
@@ -51,7 +51,7 @@ RUN Rscript -e "install.packages(c('av', 'gifski'))"
 # Specify shiny runtime options in Rprofile.site that was
 # copied in prior step
 #
-RUN echo "local(options(shiny.port = 3939, shiny.host = '0.0.0.0'))" > \
+RUN echo "local(options(shiny.port = 3838, shiny.host = '0.0.0.0'))" > \
     /usr/lib/R/etc/Rprofile.site
 
 #------------------------------------------------------------

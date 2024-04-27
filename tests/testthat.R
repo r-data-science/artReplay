@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(mypalette)
+library(replayArt)
 
-test_check("mypalette")
+test_check("replayArt")
