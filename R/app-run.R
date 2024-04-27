@@ -179,7 +179,7 @@ app_server <- function() {
         write_frame(gif, i, get_temp_dir("frames", img_file))      # Save Frame
 
         print(i)
-        write_graphic_2(DT, i, get_temp_dir("graphics", img_file)) # Save Graphic
+        write_graphic(DT, i, get_temp_dir("graphics", img_file)) # Save Graphic
       }
 
       updateSliderInput(

@@ -38,7 +38,7 @@ test_that("Testing plot creation", {
   # DT[, hours := (x + 5)*(x > 0)]
   #
   # i <- 50
-  # write_graphic_2(DT, i, fs::path(outdir, paste0(i, ".jpeg")))
+  # write_graphic(DT, i, fs::path(outdir, paste0(i, ".jpeg")))
   # fs::dir_delete(outdir)
   #
 })

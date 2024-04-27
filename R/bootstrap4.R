@@ -4,11 +4,6 @@
 #'
 loadFontAwesome <- function() {
   list(
-    # Font Awesome
-    # htmltools::htmlDependency(name = "font-awesome",
-    #                           version = "5.13.0",
-    #                           src = get_app_dir("css"),
-    #                           stylesheet = c("all.min.css", "v4-shims.min.css")),
     htmltools::htmlDependency(name = "font-awesome",
                               version = "5.13.0",
                               src = get_app_dir("fontawesome"),
@@ -23,53 +18,6 @@ loadFontAwesome <- function() {
       stylesheet = "style.css"
     )
   )
-}
-
-#' Info / Value Box in Shiny Apps and RMarkdown
-#'
-#' @param title Text to be shown in the box
-#' @param value Value to be shown in the box
-#' @param width Width of Box. width = 4 means 3 boxes can be fitted (12 / 4)
-#' @param icon Font Awesome 5 icons. E.g. "fas fa-chart-bar"
-#' @param style Either "primary", "secondary", "info", "success", "danger", "warning"
-#' @param border Either "left", "bottom"
-#'
-#' @importFrom htmltools htmlDependency tags browsable
-#'
-summaryBox <- function(title = "title", value = "value", width = 4, icon = "fas fa-chart-bar", style = "primary", border = "left") {
-
-  infotag  <-  tags$div(
-    class = paste0("col-md-", width),
-    tags$div(
-      class = paste0("card border-", border, "-", style, " shadow h-100 py-2"),
-      tags$div(
-        class = "card-body",
-        tags$div(
-          class = "row no-gutters align-items-center",
-          tags$div(
-            class = "col mr-2",
-            tags$div(
-              class = paste0("text-xs font-weight-bold text-", style, " text-uppercase mb-1"),
-              toupper(title)
-            ),
-            tags$div(
-              class = "h5 mb-0 font-weight-bold text-gray-800",
-              value
-            )
-          ),
-          tags$div(
-            class = "col-auto",
-            tags$i(class = paste(icon, "fa-2x text-gray-300"))
-          )
-        )
-      )
-    )
-  )
-
-  htmltools::htmlDependencies(infotag) <- loadFontAwesome()
-  # infotag
-  htmltools::browsable(infotag)
-
 }
 
 #' Info / Value Box in Shiny Apps and RMarkdown
@@ -102,43 +50,4 @@ summaryBox2 <- function(title, value, width = 4, icon = "fas fa-chart-bar", styl
 
   htmltools::htmlDependencies(valuetag) <- loadFontAwesome()
   htmltools::browsable(valuetag)
-
-}
-
-#' Info / Value Box in Shiny Apps and RMarkdown
-#'
-#' @param title Text to be shown in the box
-#' @param value Value to be shown in the box
-#' @param width Width of Box. width = 4 means 3 boxes can be fitted (12 / 4)
-#' @param icon Font Awesome 5 icons. E.g. "fas fa-chart-bar"
-#' @param style Either "primary", "secondary", "info", "success", "danger", "warning"
-#'
-#' @importFrom htmltools htmlDependency tags browsable
-#'
-summaryBox3 <- function(title, value, width = 4, icon = "fas fa-chart-bar", style = "info") {
-
-  infotag  <- tags$div(
-    class = paste0("col-md-", width),
-    tags$div(
-      class = paste0("card border-", style, " mx-sm-1 p-3"),
-      tags$div(
-        class = paste0("card border-", style, " shadow text-", style , " p-3 my-card"),
-        tags$span(
-          class = paste("myicon", icon),
-          `aria-hidden` = "true"
-        )
-      ),
-      tags$div(
-        class = paste0("text-", style, " text-center mt-3"),
-        tags$h4(title)
-      ),
-      tags$div(
-        class = paste0("text-", style, " text-center mt-2"),
-        tags$h1(value)
-      )
-    )
-  )
-
-  htmltools::htmlDependencies(infotag) <- loadFontAwesome()
-  htmltools::browsable(infotag)
 }

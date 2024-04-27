@@ -7,7 +7,7 @@
 #' @importFrom ggplot2 ggplot geom_line coord_cartesian aes element_line theme ggtitle element_blank unit element_text scale_x_continuous scale_y_continuous ggsave
 #' @importFrom ggtext element_markdown
 #' @importFrom scales breaks_extended label_comma
-write_graphic_2 <- function(DT, i, outpath) {
+write_graphic <- function(DT, i, outpath) {
   breaks <- function(x) scales::breaks_extended()(x)
   labels_y <- function(y) {
     cutoff <- DT[i + 1, strokes]
