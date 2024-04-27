@@ -26,3 +26,19 @@ test_that("Testing app utils", {
         "info", "warning", "danger")
     )
 })
+
+test_that("Testing plot creation", {
+  # outdir <- lubridate::today() |>
+  #   as.integer() |>
+  #   fs::path("temp/graphics") |>
+  #   fs::dir_create(recurse = TRUE)
+  #
+  # DT <- data.table(x = 0:100)
+  # DT[, strokes := x*100]
+  # DT[, hours := (x + 5)*(x > 0)]
+  #
+  # i <- 50
+  # write_graphic_2(DT, i, fs::path(outdir, paste0(i, ".jpeg")))
+  # fs::dir_delete(outdir)
+  #
+})

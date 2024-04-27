@@ -22,7 +22,6 @@
 \alias{write_png}
 \alias{write_gif}
 \alias{write_frame}
-\alias{write_graphic}
 \alias{trigger_image_dl}
 \alias{trigger_gif_dl}
 \alias{trigger_vid_dl}
@@ -67,9 +66,7 @@ write_png(img)
 
 write_gif(gif, fps)
 
-write_frame(gif, i)
-
-write_graphic(DT, i)
+write_frame(gif, i, outpath)
 
 trigger_image_dl(img_path, session)
 
@@ -104,7 +101,7 @@ get_click_plot(base_plot, x, y)
 
 \item{i}{frame number}
 
-\item{DT}{data for plot}
+\item{outpath}{write path}
 
 \item{img_path}{image path}
 
@@ -160,8 +157,6 @@ Functions required to execute and facililate an application user session.
 \item \code{write_gif()}: write gif
 
 \item \code{write_frame()}: write frame in gif
-
-\item \code{write_graphic()}: write graph for given frame's data
 
 \item \code{trigger_image_dl()}: trigger download
 

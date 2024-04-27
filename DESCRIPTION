@@ -27,11 +27,11 @@ Imports:
     shinydashboard,
     shinydashboardPlus,
     base64enc,
-    grDevices,
     shinyEffects,
-    ggpubr,
     lubridate,
-    scales
+    scales,
+    htmltools,
+    ggtext
 Depends: 
   R (>= 4.0)
 Suggests: 

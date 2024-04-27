@@ -132,6 +132,9 @@ app_server <- function() {
     r_tmp_jpg <- reactiveVal()
     r_tmp_png <- reactiveVal()
 
+    ## Hold the brush stroke/hours data for a given selected region
+    r_region_data <- reactiveVal()
+
     observeEvent(input$btn_submit, {
       w$show()
       w$update(html = waiter_html("Generating Replay"))
@@ -152,13 +155,15 @@ app_server <- function() {
       ## Drop frames that haven't changed since prior
       gif <- gif[which(get_comp_vec(gif))]
 
-      ## Write and save path to reactive object
-      write_gif(gif, input$fps_slider) |> r_tmp_gif()
-
       ## Temporary data, replace with real info later
-      DT <- data.table(x = 0:100)
+      DT <- data.table(x = 0:length(gif))
       DT[, strokes := x*100]
       DT[, hours := (x + 5)*(x > 0)]
+
+      r_region_data(DT)
+
+      ## Write and save path to reactive object
+      write_gif(gif, input$fps_slider) |> r_tmp_gif()
 
       w$update(html = waiter_html("Saving Timelapse Frames"))
 
@@ -170,8 +175,11 @@ app_server <- function() {
                    scales::percent(i/length(gif), accuracy = 1))
           ))
         }
-        write_frame(gif, i) # Save Frame
-        write_graphic(DT, i) # Save Graphic
+        img_file <- paste0(i, ".jpeg")
+        write_frame(gif, i, get_temp_dir("frames", img_file))      # Save Frame
+
+        print(i)
+        write_graphic_2(DT, i, get_temp_dir("graphics", img_file)) # Save Graphic
       }
 
       updateSliderInput(
@@ -248,6 +256,9 @@ app_server <- function() {
         width = "100%", height = "100%"
       )
     }, deleteFile = FALSE)
+
+    output$sumbox_strokes <- renderText(req(r_region_data())[input$frame_slider, strokes])
+    output$sumbox_hours <- renderText(req(r_region_data())[input$frame_slider, hours])
   }
 }
 

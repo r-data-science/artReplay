@@ -191,63 +191,10 @@ write_gif <- function(gif, fps) {
 
 #' @param gif gif object
 #' @param i frame number
+#' @param outpath write path
 #' @describeIn app-utils write frame in gif
-write_frame <- function(gif, i) {
-  outpath <- get_temp_dir("frames", paste0(i, ".jpeg"))
+write_frame <- function(gif, i, outpath) {
   magick::image_write(gif[i], outpath, format = "jpeg")
-}
-
-#' @param DT data for plot
-#' @param i frame number
-#' @importFrom ggplot2 ggplot aes geom_point geom_line coord_cartesian ggtitle theme element_blank scale_y_sqrt
-#' @importFrom ggpubr ggarrange
-#' @importFrom grDevices jpeg dev.off
-#' @describeIn app-utils write graph for given frame's data
-write_graphic <- function(DT, i) {
-  p <- ggplot2::ggplot(data = DT)
-
-  outpath <- get_temp_dir("graphics", paste0(i, ".jpeg"))
-  grDevices::jpeg(outpath, width = 858, height = 1200, res = 175)
-
-  graph1 <- p +
-    ggplot2::geom_point(data = DT[1:(i+1)], ggplot2::aes(x, strokes), color = "red") +
-    ggplot2::geom_line(data = DT[1:(i+1)], ggplot2::aes(x, strokes), color = "red") +
-    ggplot2::coord_cartesian(
-      xlim = c(0, nrow(DT)),
-      ylim = c(min(DT$strokes), max(DT$strokes))
-    ) +
-    ggplot2::ggtitle(label = "Strokes") +
-    ggplot2::theme(
-      axis.line.x = ggplot2::element_blank(),
-      axis.ticks.x = ggplot2::element_blank(),
-      axis.text.x = ggplot2::element_blank(),
-      axis.title = ggplot2::element_blank()
-    ) +
-    ggplot2::scale_y_sqrt()
-  graph2 <- p +
-    ggplot2::geom_point(data = DT[1:(i+1)], ggplot2::aes(x, hours), color = "blue") +
-    ggplot2::geom_line(data = DT[1:(i+1)], ggplot2::aes(x, hours), color = "blue") +
-    ggplot2::coord_cartesian(
-      xlim = c(0, nrow(DT)),
-      ylim = c(min(DT$hours), max(DT$hours))
-    ) +
-    ggplot2::ggtitle(label = "Hours") +
-    ggplot2::theme(
-      axis.line.x = ggplot2::element_blank(),
-      axis.ticks.x = ggplot2::element_blank(),
-      axis.text.x = ggplot2::element_blank(),
-      axis.title = ggplot2::element_blank()
-    )
-  graph <- ggpubr::ggarrange(
-    graph1, graph2,
-    ncol = 1,
-    align = "hv"
-  ) +
-    ggplot2::theme(plot.margin = ggplot2::margin(0,0,0,0, "cm"))
-  print(graph)
-
-  grDevices::dev.off()
-  invisible(NULL)
 }
 
 
@@ -307,3 +254,4 @@ get_click_plot <- function(base_plot, x, y) {
       )
     )
 }
+

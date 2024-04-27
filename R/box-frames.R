@@ -10,6 +10,7 @@ get_frames_box <- function() {
     collapsible = TRUE,
     headerBorder = FALSE,
 
+
     column(
       width = 12,
       sliderInput(
@@ -19,14 +20,38 @@ get_frames_box <- function() {
         max = 10,
         value = 0,
         label = NULL,
-        animate = animationOptions(interval = 300, loop = TRUE),
+        animate = animationOptions(interval = 200, loop = TRUE),
         ticks = FALSE
       )
     ),
 
+    column(
+      width = 12,
+      fluidRow(
+        summaryBox2(width = 6,
+                    value = textOutput("sumbox_strokes"),
+                    style = "primary",
+                    icon = "fas fa-paintbrush",
+                    title = "Brush Strokes"),
+        summaryBox2(width = 6,
+                    value = textOutput("sumbox_hours"),
+                    style = "primary",
+                    icon = "fas fa-clock",
+                    title = "Hours Drawing")
+      )
+    ),
+
+
     footer = tagList(
-      column(5, imageOutput("frame_graphic", fill = TRUE, inline = TRUE)),
-      column(7, imageOutput("frame_portrait", fill = TRUE, inline = TRUE))
+      column(
+        width = 6,
+        imageOutput("frame_graphic", fill = TRUE, inline = TRUE)
+      ),
+      column(
+        width = 6,
+        imageOutput("frame_portrait", fill = TRUE, inline = TRUE)
+      )
     )
   )
 }
+
