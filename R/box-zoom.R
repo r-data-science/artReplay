@@ -5,7 +5,7 @@ get_zoom_box <- function() {
     height = "500px",
     id = "box_zoom_viewer",
     width = 6,
-    icon = icon("magnifying-glass-plus"),
+    icon = icon("image"),
     title = "",
     closable = TRUE,
     solidHeader = FALSE,

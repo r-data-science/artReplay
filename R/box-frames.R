@@ -5,7 +5,7 @@ get_frames_box <- function() {
     id = "box_frame_viewer",
     title = "",
     width = 12,
-    icon = icon("chart-line"),
+    icon = icon("lightbulb"),
     closable = TRUE,
     collapsible = TRUE,
     headerBorder = FALSE,

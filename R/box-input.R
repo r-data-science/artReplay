@@ -37,10 +37,15 @@ get_input_box <- function () {
       )
     ),
     footer = tagList(
-      actionButton(
+      shinyWidgets::actionBttn(
         inputId = "btn_submit",
-        label = "Generate Output",
-        width = "100%"
+        label = "Create Replay",
+        block = TRUE,
+        color = "warning",
+        size = "sm",
+        style = "material-flat",
+        icon = icon("clock-rotate-left"),
+        no_outline = FALSE
       )
     ),
     status = "warning"

@@ -35,10 +35,7 @@ runReplayApp <- function() {
         get_app_dir("images/init.png"),
         get_temp_dir("init.png")
       )
-
-      onStop(function() {
-        gc()
-      })
+      onStop(gc)
     }
   )
 }
@@ -71,7 +68,7 @@ app_ui <- function() {
 
       waiter::useWaiter(),
       waiter::waiter_preloader(
-        waiter_html("Initializing Session"),
+        waiter_html("Starting Session"),
         .colors$bg,
         fadeout = 2000
       ),
@@ -101,9 +98,10 @@ app_server <- function() {
 
     w <- new_waiter()
 
-    base_plot <- get_base_plot()
-    replay_gif <- get_replay_gif() # Make this faster
-    full_img <- get_full_img() # Make this faster
+    ## Init reactives to hold image/plot objects
+    r_plot_1k <- reactiveVal( get_base_plot() ) # dynamic in future
+    r_gif_2k <- reactiveVal() # Set this value on first submit
+    r_jpg_4k <- reactiveVal() # Set this value on first submit
 
     ## Initial coordinates for plot click on app load
     r_click_x <- reactiveVal(300)
@@ -114,8 +112,11 @@ app_server <- function() {
     observeEvent(input$plot_click, {
       x <- input$plot_click$x
       y <- input$plot_click$y
+
+      # Depending on where this is deployed, scale into pixel coords
       if (x < 1) x <- x * 1000
       if (y < 1) y <- y * 1000
+
       r_click_x(max(round(x, 0) - 100, 0))
       r_click_y(max(round(y, 0) - 100, 0))
     })
@@ -123,20 +124,33 @@ app_server <- function() {
     ## Plot the base image with the box corresponding to the
     ## click or initial location
     output$base_portrait <- renderPlot({
-      get_click_plot(base_plot, r_click_x(), r_click_y())
+      get_click_plot(r_plot_1k(), r_click_x(), r_click_y())
     })
 
-    ## On submit, get the replay gif of the selected region in the base image
+    ## These hold the file paths to images on disk for shiny to display on UI
     ##
     r_tmp_gif <- reactiveVal()
     r_tmp_jpg <- reactiveVal()
     r_tmp_png <- reactiveVal()
 
-    ## Hold the brush stroke/hours data for a given selected region
+    ## Holds the brush stroke/hours data for a given selected region
     r_region_data <- reactiveVal()
 
     observeEvent(input$btn_submit, {
       w$show()
+
+      # This will run on first submit only
+      # Read gif and image and save into reactive var
+      if ( is.null(r_gif_2k()) ) {
+        w$update(html = waiter_html("Reading Timelapse Images"))
+        r_gif_2k(get_replay_gif())
+      }
+      if ( is.null(r_jpg_4k()) ) {
+        r_jpg_4k(get_full_img())
+      }
+      replay_gif <- r_gif_2k()
+      full_img <- r_jpg_4k()
+
       w$update(html = waiter_html("Generating Replay"))
 
       clear_frames_dir() ## Clear previous frames on last submit
