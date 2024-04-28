@@ -42,7 +42,7 @@ RUN install.r remotes
 #
 ADD . rpkg
 RUN Rscript -e "remotes::install_local('rpkg')"
-RUN Rscript -e "stopifnot('replayArt' %in% installed.packages()[,'Package'])"
+RUN Rscript -e "stopifnot('artReplay' %in% installed.packages()[,'Package'])"
 
 # Also needs the following
 RUN Rscript -e "install.packages(c('av', 'gifski'))"
@@ -77,5 +77,5 @@ RUN chown app:app -R /home/app
 USER app
 
 
-CMD ["R", "-e", "replayArt::runReplayApp()"]
+CMD ["R", "-e", "artReplay::runReplayApp()"]
 

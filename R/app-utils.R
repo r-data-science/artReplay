@@ -121,7 +121,7 @@ get_base_plot <- function() {
 #' @param ... optional
 #' @describeIn app-utils get path to internal app files
 get_app_dir <- function(...) {
-  fs::path_package("replayArt", "app", ...)
+  fs::path_package("artReplay", "app", ...)
 }
 
 #' @param ... optional
